@@ -1,0 +1,45 @@
+body{
+  margin:0;
+  font-family: Arial, Helvetica, sans-serif;
+  background:#f4f6f8;
+}
+
+/* Barra superior */
+.navbar{
+  background:#00bfa5;
+  color:white;
+  padding:20px;
+  font-size:22px;
+  font-weight:bold;
+  text-align:center;
+}
+
+/* Contenedor centrado */
+.perfil-container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:80vh;
+}
+
+/* Tarjeta del perfil */
+.perfil-card{
+  background:white;
+  padding:40px;
+  border-radius:20px;
+  width:400px;
+  text-align:center;
+
+  box-shadow:0px 10px 25px rgba(0,0,0,0.2);
+}
+
+/* Título */
+.perfil-card h1{
+  margin-bottom:25px;
+}
+
+/* Datos del usuario */
+.perfil-info{
+  font-size:20px;
+  margin:10px 0;
+}

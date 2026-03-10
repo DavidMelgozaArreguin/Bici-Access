@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-
+import "../styless/Perfil.css";
 function Perfil() {
 
   const location = useLocation();
@@ -10,15 +10,19 @@ function Perfil() {
   }
 
   return (
-    <div style={{textAlign:"center", marginTop:"100px"}}>
-
-      <h1>Perfil del Alumno</h1>
-
-      <p><b>Nombre:</b> {usuario.nombre}</p>
-      <p><b>Código:</b> {usuario.codigo}</p>
-      <p><b>Carrera:</b> {usuario.carrera}</p>
-      <p><b>Vehículo:</b> {usuario.vehiculo}</p>
-
+    <div>
+      <div className="navbar"> 
+        BICI-ACCESS
+      </div>
+      <div className="perfil-container">
+        <div className="perfil-card">
+          <h1>Perfil del Alumno</h1>
+          <p className="perfil-info"><b>Nombre:</b> {usuario.nombre}</p>
+          <p className="perfil-info"><b>Código:</b> {usuario.codigo}</p>
+          <p className="perfil-info"><b>Carrera:</b> {usuario.carrera}</p>
+          <p className="perfil-info"><b>Vehículo:</b> {usuario.vehiculo}</p>
+        </div>
+      </div>
     </div>
   );
 }

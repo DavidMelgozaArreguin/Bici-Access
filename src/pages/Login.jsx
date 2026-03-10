@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usuarios } from "../data/usuarios";
-
+import "../styless/Login.css";
 function Login() {
 
   const [codigo, setCodigo] = useState("");
@@ -22,45 +22,40 @@ function Login() {
       alert("Código o contraseña incorrectos");
     }
   };
-
   return (
-    <div style={{textAlign:"center", marginTop:"100px"}}>
 
-      <h1>BICI-ACCESS</h1>
+      <div className="login-container">
+        <div className="login-box">
 
-      <form onSubmit={iniciarSesion}>
+          <h1>BICI-ACCESS</h1>
 
-        <div>
-          <input
-            type="text"
-            placeholder="Código de alumno"
-            maxLength="9"
-            value={codigo}
-            onChange={(e) => setCodigo(e.target.value)}
-          />
-        </div>
+          <form onSubmit={iniciarSesion}>
 
-        <br/>
+            <input
+              type="text"
+              placeholder="Código de alumno"
+              maxLength="9"
+              value={codigo}
+              onChange={(e) => setCodigo(e.target.value)}
+            />
 
-        <div>
-          <input
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+              <input
+                type="password"
+                placeholder="Contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+          <button type="submit">
+            Iniciar sesión
+          </button>
 
-        <br/>
+        </form>
 
-        <button type="submit">
-          Iniciar sesión
-        </button>
-
-      </form>
+      </div>
 
     </div>
-  );
+
+);
 }
 
 export default Login;
