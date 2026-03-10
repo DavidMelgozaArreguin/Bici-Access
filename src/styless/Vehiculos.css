@@ -1,0 +1,57 @@
+body{
+  margin:0;
+  font-family: "Segoe UI", sans-serif;
+  background:#f4f6f8;
+}
+
+.navbar{
+  background:#00bfa5;
+  color:white;
+  padding:20px;
+  font-size:24px;
+  font-weight:bold;
+  text-align:center;
+  box-shadow:0 3px 10px rgba(0,0,0,0.2);
+}
+
+.vehiculos-container{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  padding:30px;
+  gap:20px;
+}
+
+.vehiculo-card{
+  background:white;
+  border-radius:20px;
+  padding:25px;
+  width:250px;
+  text-align:center;
+  box-shadow:0 10px 20px rgba(0,0,0,0.15);
+  transition: transform 0.2s;
+}
+
+.vehiculo-card:hover{
+  transform: translateY(-5px);
+}
+
+.vehiculo-card h2{
+  margin-bottom:15px;
+  color:#00bfa5;
+}
+
+.btn-export{
+  padding:12px 25px;
+  border:none;
+  border-radius:25px;
+  background:#2ecc71;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.btn-export:hover{
+  background:#27ae60;
+}

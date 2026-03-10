@@ -24,7 +24,10 @@ function Login() {
     }
   };
   return (
-
+    <div>
+      <div className="navbar"> 
+        Bienvenido a
+      </div>
       <div className="login-container">
         <div className="login-box">
 
@@ -58,6 +61,7 @@ function Login() {
       </div>
 
     </div>
+  </div>
 
 );
 }

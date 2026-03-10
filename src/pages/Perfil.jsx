@@ -1,5 +1,7 @@
 import { useLocation } from "react-router-dom";
 import "../styless/Perfil.css";
+import "./Vehiculos.jsx";
+import { exportToExcel } from "../data/Excel";
 function Perfil() {
 
   const location = useLocation();
@@ -21,6 +23,10 @@ function Perfil() {
           <p className="perfil-info"><b>Código:</b> {usuario.codigo}</p>
           <p className="perfil-info"><b>Carrera:</b> {usuario.carrera}</p>
           <p className="perfil-info"><b>Vehículo:</b> {usuario.vehiculo}</p>
+          <button type="submit"
+            onClick={()=>navigate("/Vehiculos")}>
+            Exportar Excel
+          </button>
         </div>
       </div>
     </div>

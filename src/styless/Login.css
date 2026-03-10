@@ -54,7 +54,7 @@ body{
   width:100%;
   padding:12px;
 
-  border:none;
+
   border-radius:25px;
 
   background:#2ecc71;
@@ -64,16 +64,16 @@ body{
   cursor:pointer;
 
 }
-.login-box  button2{
-  width:1000%;
+.login-box button2{
+  width:100%;
   padding:12px;
 
-  border:rgb(5, 41, 5);
-  border-radius:15px;
 
-  background:#cc822e;
+  border-radius:25px;
+
+  background:#cc8d2e;
   color:white;
 
-  font-size:50px;
+  font-size:46px;
   cursor:alias;
 }

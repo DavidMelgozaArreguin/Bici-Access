@@ -14,6 +14,7 @@ body{
   text-align:center;
 }
 
+
 /* Contenedor centrado */
 .perfil-container{
   display:flex;
@@ -42,4 +43,13 @@ body{
 .perfil-info{
   font-size:20px;
   margin:10px 0;
+}
+.perfil-button{
+  marginTop:"20px";
+  padding:"10px 20px"; 
+  borderRadius:"20px";
+  background:"#00bfa5"; 
+  color:"white";
+  border:"none";
+  cursor:"pointer";
 }
