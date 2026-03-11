@@ -6,7 +6,6 @@ from slowapi.errors import RateLimitExceeded
 from app.routers import auth, users, bicicletas, registros, admin
 import time
 
-# Configurar el rate limiter (5 intentos por minuto por IP)
 limiter = Limiter(key_func=get_remote_address, default_limits=["5/minute"])
 
 app = FastAPI(
@@ -15,7 +14,6 @@ app = FastAPI(
     version="0.1.0"
 )
 
-# Conectar el limiter a la app
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
@@ -24,14 +22,13 @@ app.include_router(auth.router)
 app.include_router(users.router)
 app.include_router(bicicletas.router)
 app.include_router(registros.router)
-app.include_router(admin.router) 
+app.include_router(admin.router)
 
 @app.get("/")
-@limiter.limit("10/minute")  # También limitamos la raiz
+@limiter.limit("10/minute")
 async def read_root(request: Request):
     return {"message": "¡Bienvenido a la API del Ciclopuerto 2V! 🚴‍♂️"}
 
-# Middleware para medir tiempo de respuesta
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
     start_time = time.time()
