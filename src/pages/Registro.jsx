@@ -1,46 +1,119 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { usuarios, agregarUsuario } from "../data/Usuarios";
+
+const API_URL = "http://localhost:8000";
 
 function Registro() {
   const [nombre, setNombre] = useState("");
   const [codigo, setCodigo] = useState("");
-  const [carrera, setCarrera] = useState("");
-  const [vehiculo, setVehiculo] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
-  const registrar = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
-    const existe = usuarios.find((u) => u.codigo === codigo);
-
-    if (existe) {
-      alert("El alumno ya está registrado");
+    // Validaciones básicas
+    if (!nombre || !codigo || !password) {
+      setError("Nombre, código y contraseña son obligatorios");
+      setLoading(false);
       return;
     }
 
-    const nuevoUsuario = { nombre, codigo, carrera, vehiculo, password };
+    // Generar email a partir del código
+    const email = `${codigo}@alumnos.udg.mx`;
 
-    agregarUsuario(nuevoUsuario); // Guarda en la lista y en localStorage
+    // Datos exactos que espera el backend
+    const usuarioData = {
+      nombre: nombre,
+      codigo: codigo,
+      email: email,
+      password: password
+      // 'rol' lo asigna el backend por defecto como "estudiante"
+    };
 
-    alert("Registro exitoso");
-    navigate("/");
+    try {
+      const response = await fetch(`${API_URL}/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(usuarioData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Registro exitoso. Ahora puedes iniciar sesión.");
+        navigate("/login");
+      } else {
+        // Mostrar el error detallado que devuelve el backend
+        console.error("Error del backend:", data);
+        if (data.detail && Array.isArray(data.detail)) {
+          // Si es un error de validación de Pydantic
+          const mensajes = data.detail.map(err => err.msg).join(", ");
+          setError(mensajes);
+        } else {
+          setError(data.detail || "Error en el registro");
+        }
+      }
+    } catch (err) {
+      setError("Error de conexión con el servidor");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="login-container">
       <div className="login-box">
         <h1>Registro de Alumno</h1>
-        <form onSubmit={registrar}>
-          <input type="text" placeholder="Nombre" value={nombre} onChange={(e)=>setNombre(e.target.value)} />
-          <input type="text" placeholder="Código" value={codigo} onChange={(e)=>setCodigo(e.target.value)} />
-          <input type="text" placeholder="Carrera" value={carrera} onChange={(e)=>setCarrera(e.target.value)} />
-          <input type="text" placeholder="Vehículo" value={vehiculo} onChange={(e)=>setVehiculo(e.target.value)} />
-          <input type="password" placeholder="Contraseña" value={password} onChange={(e)=>setPassword(e.target.value)} />
-          <button type="submit">Registrarse</button>
+        
+        {/* Mostrar errores de forma segura */}
+        {error && (
+          <div style={{ color: 'red', marginBottom: '15px', padding: '10px', backgroundColor: '#ffeeee', borderRadius: '4px' }}>
+            <strong>Error:</strong> {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Nombre completo"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            required
+            disabled={loading}
+          />
+          <input
+            type="text"
+            placeholder="Código (ej. 2213522292)"
+            value={codigo}
+            onChange={(e) => setCodigo(e.target.value)}
+            required
+            disabled={loading}
+          />
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            disabled={loading}
+          />
+          <button type="submit" disabled={loading}>
+            {loading ? "Registrando..." : "Registrarse"}
+          </button>
         </form>
+
+        <p style={{ marginTop: '15px' }}>
+          ¿Ya tienes cuenta? <a href="/login">Inicia sesión</a>
+        </p>
       </div>
     </div>
   );

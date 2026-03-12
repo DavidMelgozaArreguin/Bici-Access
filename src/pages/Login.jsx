@@ -1,69 +1,84 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { usuarios } from "../data/Usuarios";
 import "../styless/Login.css";
 
-function Login() {
+const API_URL = "http://localhost:8000";
 
+function Login() {
   const [codigo, setCodigo] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
-  const iniciarSesion = (e) => {
+  const iniciarSesion = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
-    const usuario = usuarios.find(
-      (u) => u.codigo === codigo && u.password === password
-    );
+    if (!codigo || !password) {
+      setError("Código y contraseña son obligatorios");
+      setLoading(false);
+      return;
+    }
 
-    if (usuario) {
-      navigate("/perfil", { state: usuario });
-    } else {
-      alert("Código o contraseña incorrectos");
+    const email = `${codigo}@alumnos.udg.mx`;
+
+    try {
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Guardar token
+        localStorage.setItem("token", data.access_token);
+        //navigate("/perfil"); // Redirige a perfil
+        console.log("Navegando a /perfil...");
+      } else {
+        setError(data.detail || "Credenciales incorrectas");
+      }
+    } catch (err) {
+      setError("Error de conexión con el servidor");
+    } finally {
+      setLoading(false);
     }
   };
+
   return (
-    <div>
-      <div className="navbar"> 
-        Bienvenido a
-      </div>
-      <div className="login-container">
-        <div className="login-box">
-
-          <h1>BICI-ACCESS</h1>
-
-          <form onSubmit={iniciarSesion}>
-
-            <input
-              type="text"
-              placeholder="Código de alumno"
-              maxLength="9"
-              value={codigo}
-              onChange={(e) => setCodigo(e.target.value)}
-            />
-
-              <input
-                type="password"
-                placeholder="Contraseña"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-          <button type="submit">
-            Iniciar sesión
+    <div className="login-container">
+      <div className="login-box">
+        <h1>BICI-ACCESS</h1>
+        {error && <div style={{ color: "red" }}>{error}</div>}
+        <form onSubmit={iniciarSesion}>
+          <input
+            type="text"
+            placeholder="Código"
+            value={codigo}
+            onChange={(e) => setCodigo(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button type="submit" disabled={loading}>
+            {loading ? "Entrando..." : "Iniciar sesión"}
           </button>
-          <br/><br/>
-          <button2 type="button2" onClick={()=>navigate("/registro")}>
-            Crear cuenta
-          </button2>
         </form>
-
+        <p>
+          ¿No tienes cuenta? <a href="/registro">Regístrate</a>
+        </p>
       </div>
-
     </div>
-  </div>
-
-);
+  );
 }
 
 export default Login;

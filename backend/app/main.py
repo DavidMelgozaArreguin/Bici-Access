@@ -4,6 +4,7 @@ from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from app.routers import auth, users, bicicletas, registros, admin 
+from fastapi.middleware.cors import CORSMiddleware
 import time
 limiter = Limiter(key_func=get_remote_address, default_limits=["5/minute"])
 
@@ -35,3 +36,11 @@ async def add_process_time_header(request: Request, call_next):
     process_time = time.time() - start_time
     response.headers["X-Process-Time"] = str(process_time)
     return response
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://localhost:3000"],  # Los puertos del frontend
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
