@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Perfil from "./pages/Perfil";
 import Registro from "./pages/Registro";
-import Vehiculos from "./pages/Vehiculos";
+
 
 function App() {
   return (
@@ -19,7 +19,6 @@ function App() {
 
         <Route path="/registro" element={<Registro />} />
 
-        <Route path="/vehiculos" element={<Vehiculos />} />
 
       </Routes>
 
