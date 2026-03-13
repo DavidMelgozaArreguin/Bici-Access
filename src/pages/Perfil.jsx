@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styless/Perfil.css";
+import { QRCodeCanvas } from "qrcode.react";
 // import { exportToExcel } from "../data/Excel"; // Puta madre
 
 const API_URL = "http://localhost:8000";
@@ -60,6 +61,19 @@ function Perfil() {
 
     fetchPerfil();
   }, [navigate]);
+
+  const generarQR = () => {
+  if (!usuario) return "";
+
+  const dataQR = {
+    nombre: usuario.nombre,
+    codigo: usuario.codigo,
+    email: usuario.email,
+    rol: usuario.rol
+    };
+
+    return JSON.stringify(dataQR);
+  };
 
   const handleExport = () => {
     if (bicicletas.length > 0) {
