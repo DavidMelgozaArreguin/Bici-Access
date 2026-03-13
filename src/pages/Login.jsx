@@ -41,22 +41,20 @@ function Login() {
         },
 
         body: JSON.stringify({
-          email,
-          password
+          email,//si recibe correo o email si conecta token pero no pasa de login a perfil
+          password//si es por username o nombre en vez de codigo si pasa a perfil
         })
 
       });
 
       const data = await response.json();
+      console.log("RESPUESTA BACKEND:", data);
 
       if (response.ok) {
-
-        // guardar token correctamente
-        localStorage.setItem("token", data.access_token);
-
-        // redirigir al perfil
         navigate("/perfil");
 
+        // guardar token correctamente
+        const token = localStorage.getItem("token");
       } else {
 
         setError(data.detail || "Credenciales incorrectas");
