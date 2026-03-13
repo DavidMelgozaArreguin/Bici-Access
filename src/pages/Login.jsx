@@ -49,16 +49,12 @@ function Login() {
 
       const data = await response.json();
       console.log("RESPUESTA BACKEND alv:", data);
-
-      if (response.ok) {
-        navigate("/perfil");
-        // guardar token correctamente
-        const token = localStorage.getItem("token");
-      } else {
-
-        setError(data.detail || "Credenciales incorrectas");
-
-      }
+          if (response.ok) {
+            navigate("/perfil");
+            const token = localStorage.getItem("token");     
+          } else {
+            setError(data.detail || "Credenciales incorrectas");
+          }
 
     } catch (err) {
 

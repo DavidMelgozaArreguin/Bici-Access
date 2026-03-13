@@ -51,13 +51,13 @@ function Perfil() {
 
           if (userRes.status === 401) {
             localStorage.removeItem("token");
-            navigate("/login");
+            navigate("/perfil");
           }
 
           throw new Error("Error al obtener perfil");
         }
-
         const userData = await userRes.json();
+        console.log("Datos usuario:", userData);
         setUsuario(userData);
 
         // Obtener bicicletas
