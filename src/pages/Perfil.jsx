@@ -64,14 +64,14 @@ function Perfil() {
 
   const generarQR = () => {
   if (!usuario) return "";
-
+    // para lo del qr
   const dataQR = {
     nombre: usuario.nombre,
     codigo: usuario.codigo,
     email: usuario.email,
     rol: usuario.rol
     };
-
+    //qr
     return JSON.stringify(dataQR);
   };
 
@@ -108,6 +108,17 @@ function Perfil() {
           </p>
 
           <hr />
+          <hr />
+
+          <h2>Mi QR de acceso</h2>
+
+          <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <QRCodeCanvas
+              value={generarQR()}
+              size={200}
+            />
+            <p>Escanea este código para registrar entrada o salida</p>
+          </div>
 
           <h2>Mis Bicicletas</h2>
           {bicicletas.length === 0 ? (
