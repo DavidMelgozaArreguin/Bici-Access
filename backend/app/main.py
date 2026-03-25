@@ -16,8 +16,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000",
-    "https://bici-access.vercel.app/"],  # Los puertos del frontend
+    allow_origin_regex=["https://.*\.vercel\.app"],  # Los puertos del frontend
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
