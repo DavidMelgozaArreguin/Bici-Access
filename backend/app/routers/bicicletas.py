@@ -25,7 +25,7 @@ async def registrar_bicicleta(
     new_id = str(uuid4())[:8]
 
     nueva_bicicleta = {
-        "id": new_id,
+        "id": str(uuid4())[:8],
         "propietario_id": current_user.id,
         "marca": bicicleta.marca,
         "modelo": bicicleta.modelo,

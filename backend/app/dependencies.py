@@ -49,7 +49,8 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 
     # 3. Mapeo de datos
     user_data = {
-        "codigo": user_doc.get("codigo"),
+        "id": str(user_doc["_id"]),
+        "codigo": str(user_doc["codigo"]),
         "nombre": user_doc.get("nombre"),
         "email": user_doc.get("email"),
         "rol": user_doc.get("rol")

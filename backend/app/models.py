@@ -64,7 +64,7 @@ class BicicletaCreate(BaseModel):
 
 class BicicletaOut(BicicletaCreate):
     id: str
-    propietario_id: int
+    propietario_id: Optional[str] = None
     fecha_registro: Optional[datetime] = None
     activa: bool = True
 
@@ -79,7 +79,7 @@ class RegistroCreate(BaseModel):
 class RegistroOut(BaseModel):
     id: str
     bicicleta_id: str
-    usuario_id: int
+    usuario_id: Optional[str]
     usuario_nombre: str
     bicicleta_marca: str
     bicicleta_modelo: str

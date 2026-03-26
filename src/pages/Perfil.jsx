@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { QRCodeCanvas } from "qrcode.react";
 import "../styless/Perfil.css";
 
-const API_URL = "http://localhost:8000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 function Perfil() {
   const [usuario, setUsuario] = useState(null);
@@ -99,7 +99,6 @@ function Perfil() {
           <h1>Perfil del Alumno</h1>
           <p className="perfil-info"><b>Nombre:</b> {usuario.nombre}</p>
           <p className="perfil-info"><b>Código:</b> {usuario.codigo}</p>
-          <p className="perfil-info"><b>Email:</b> {usuario.email}</p>
           <p className="perfil-info"><b>Rol:</b> {usuario.rol}</p>
 
           <hr />

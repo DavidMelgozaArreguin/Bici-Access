@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = "http://localhost:8000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 function Registro() {
   // Campos usuario
@@ -20,6 +20,7 @@ function Registro() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+    localStorage.removeItem("token"); // Limpia cualquier sesion anterior
     e.preventDefault();
     setLoading(true);
     setError("");
@@ -97,8 +98,8 @@ function Registro() {
 
       // 4. Guardar token en localStorage para mantener sesión
       localStorage.setItem("token", token);
-      alert("Registro exitoso. Serás redirigido a tu perfil.");
-      navigate("/perfil");
+      alert("Registro exitoso. Serás redirigido al login.");
+      navigate("/login");
     } catch (err) {
       setError(err.message);
       console.error(err);
