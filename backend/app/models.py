@@ -83,6 +83,7 @@ class RegistroOut(BaseModel):
     usuario_nombre: str
     bicicleta_marca: str
     bicicleta_modelo: str
+    fecha_registro: Optional[datetime] = None
     fecha_entrada: datetime
     fecha_salida: Optional[datetime] = None
     activo: bool
