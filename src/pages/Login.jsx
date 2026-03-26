@@ -46,7 +46,7 @@ function Login() {
         setError(data.detail || "Credenciales incorrectas");
     }
   } catch (err) {
-    console.error("Error capturado:", err);
+    console.error("Error de captura:", err);
     setError("Error de conexión con el servidor");
   } finally {
     setLoading(false);
