@@ -88,6 +88,37 @@ function Perfil() {
       return;
     }
 
+    const cambiarEstado = async (biciId, tipo) => {
+  const token = localStorage.getItem("access_token");
+  if (!token) return;
+
+  const endpoint = tipo === "entrada" ? "entrada" : "salida";
+  try {
+    const res = await fetch(`${API_URL}/registros/${endpoint}?bici_id=${biciId}`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (res.ok) {
+      alert(`${tipo === "entrada" ? "Entrada" : "Salida"} registrada correctamente`);
+      // Recargar historial
+      const registrosRes = await fetch(`${API_URL}/registros/mi-historial`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (registrosRes.ok) {
+        const registrosData = await registrosRes.json();
+        setRegistros(registrosData);
+      }
+    } else {
+      const error = await res.json();
+      alert(`Error: ${error.detail || "No se pudo registrar"}`);
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Error de conexión");
+  }
+};
+
+
     // Formatear datos
     const data = bicicletas.map((bici) => ({
       Marca: bici.marca,
@@ -169,15 +200,29 @@ function Perfil() {
                 </tr>
               </thead>
               <tbody>
-                {bicicletas.map((bici) => (
-                  <tr key={bici.id || bici._id}>
-                    <td>{bici.marca}</td>
-                    <td>{bici.modelo}</td>
-                    <td>{bici.color}</td>
-                    <td>{bici.serial}</td>
-                    <td>{formatearFecha(bici.fecha_registro || bici.created_at)}</td>
-                  </tr>
-                ))}
+                {bicicletas.map((bici) => {
+  const activo = registros.some(reg => reg.bicicleta_id === (bici.id || bici._id) && reg.activo === true);
+  return (
+    <tr key={bici.id || bici._id}>
+      <td>{bici.marca}</td>
+      <td>{bici.modelo}</td>
+      <td>{bici.color}</td>
+      <td>{bici.serial}</td>
+      <td>{formatearFecha(bici.fecha_registro || bici.created_at)}</td>
+      <td>
+        {activo ? (
+          <button onClick={() => cambiarEstado(bici.id || bici._id, "salida")}>
+            Registrar salida
+          </button>
+        ) : (
+          <button onClick={() => cambiarEstado(bici.id || bici._id, "entrada")}>
+            Registrar entrada
+          </button>
+        )}
+      </td>
+    </tr>
+  );
+})}
               </tbody>
             </table>
           )}
