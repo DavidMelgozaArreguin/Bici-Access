@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { QRCodeCanvas } from "qrcode.react";
 import "../styless/Perfil.css";
+//para excel 
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
@@ -69,11 +72,40 @@ function Perfil() {
   }, [navigate]);
 
   const handleExport = () => {
-    if (bicicletas.length > 0) {
-      alert("Función exportToExcel no implementada");
-    } else {
+    if (bicicletas.length === 0) {
       alert("No hay bicicletas para exportar");
+      return;
     }
+
+    // Formatear datos
+    const data = bicicletas.map((bici) => ({
+      Marca: bici.marca,
+      Modelo: bici.modelo,
+      Color: bici.color,
+      Serial: bici.serial,
+      "Fecha Registro": formatearFecha(
+        bici.fecha_registro || bici.created_at
+      ),
+    }));
+
+    // Crear hoja
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    // Crear libro
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Bicicletas");
+
+    // Generar archivo
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+
+    const file = new Blob([excelBuffer], {
+      type: "application/octet-stream",
+    });
+
+    saveAs(file, "mis_bicicletas.xlsx");
   };
 
   // Formatear fecha para mostrar (ej. "15/03/2026 14:30")
