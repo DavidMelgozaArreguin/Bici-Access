@@ -5,7 +5,7 @@ from app.logger import log_bicicleta_event
 from app.models import BicicletaCreate, BicicletaOut, UserOut
 from app.dependencies import get_current_user
 from app.database.bicis import bicis_collection
-from datetime import datetime
+from datetime import datetime, timezone
 
 router = APIRouter(prefix="/bicicletas", tags=["bicicletas"])
 
@@ -32,7 +32,7 @@ async def registrar_bicicleta(
         "modelo": bicicleta.modelo,
         "color": bicicleta.color,
         "serial": bicicleta.serial,
-        "fecha_registro": datetime.now()
+        "fecha_registro": datetime.now(timezone.utc)
     }
 
     bicis_collection.insert_one(nueva_bicicleta)
